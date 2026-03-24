@@ -4,6 +4,9 @@ import matplotlib.pyplot as plt
 import streamlit as st
 
 
+st.set_page_config(page_title="Kaufen vs. Mieten", layout="wide")
+st.title("Kaufen vs. Mieten – interaktive Simulation")
+
 def simulate(
     home_price=400_000,
     equity=80_000,
