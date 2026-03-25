@@ -3,10 +3,6 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import streamlit as st
 
-
-st.set_page_config(page_title="Kaufen vs. Mieten", layout="wide")
-st.title("Kaufen vs. Mieten – interaktive Simulation")
-
 def simulate(
     home_price=400_000,
     equity=80_000,
@@ -210,33 +206,42 @@ df_equity, df_monthly, df_cum, s = simulate(
 # -----------------------------
 # Plots
 # -----------------------------
-col1, col2 = st.columns(2)
+col1 = st.columns(1)
 
-with col1:
-    st.subheader("Vermögen / Wohlstand (entscheidungsrelevant)")
-    fig1, ax1 = plt.subplots(figsize=(10, 4.8))
-    ax1.plot(s["x_years"], s["investment_history"], label="Mieten: Depotwert")
-    ax1.plot(s["x_years"], s["equity_home"], label="Kaufen: Eigenkapital im Haus")
-    ax1.plot(s["x_years"], s["property_value_history"], "--", alpha=0.35, label="Immobilienwert (brutto)")
-    ax1.set_xlabel("Jahre")
-    ax1.set_ylabel("€")
-    ax1.grid(True)
-    ax1.legend(loc="upper left")
-    st.pyplot(fig1)
+# ✅ EINE gemeinsame Figure mit zwei Axes
+fig, (ax1, ax2) = plt.subplots(
+    1, 2,
+    figsize=(14, 4.8),
+    layout="constrained"
+)
 
-with col2:
-    st.subheader("Kumulierte Größen (Erklärung)")
-    fig2, ax2 = plt.subplots(figsize=(10, 4.8))
-    ax2.plot(s["x_years"], s["interest_cum"], label="Kumulierte Zinsen")
-    ax2.plot(s["x_years"], s["principal_cum"], label="Kumulierte Tilgung")
-    ax2.plot(s["x_years"], s["maint_cum"], label="Kumulierte Instandhaltung")
-    ax2.plot(s["x_years"], s["rent_cum"], label="Kumulierte Miete")
-    ax2.set_xlabel("Jahre")
-    ax2.set_ylabel("€")
-    ax2.grid(True)
-    ax2.legend(loc="upper left")
-    st.pyplot(fig2)
+# --- Plot links: Vermögen ---
+ax1.plot(s["x_years"], s["investment_history"], label="Mieten: Depotwert")
+ax1.plot(s["x_years"], s["equity_home"], label="Kaufen: Eigenkapital im Haus")
+ax1.plot(s["x_years"], s["property_value_history"], "--", alpha=0.35, label="Immobilienwert (brutto)")
+ax1.set_xlabel("Jahre")
+ax1.set_ylabel("€")
+ax1.grid(True)
+ax1.legend(loc="upper left")
+ax1.set_title("Vermögen / Wohlstand")
 
+# --- Plot rechts: Kumulierte Größen ---
+ax2.plot(s["x_years"], s["interest_cum"], label="Kumulierte Zinsen")
+ax2.plot(s["x_years"], s["principal_cum"], label="Kumulierte Tilgung")
+ax2.plot(s["x_years"], s["maint_cum"], label="Kumulierte Instandhaltung")
+ax2.plot(s["x_years"], s["rent_cum"], label="Kumulierte Miete")
+ax2.set_xlabel("Jahre")
+ax2.set_ylabel("€")
+ax2.grid(True)
+ax2.legend(loc="upper left")
+ax2.set_title("Kumulierte Größen")
+
+# ✅ dieselbe Figure in beide Columns "schneiden"
+# with col1:
+st.pyplot(fig, use_container_width=True)
+
+# with col2:
+#     st.pyplot(fig, use_container_width=True)
 # -----------------------------
 # Tabellen (wie bei dir)
 # -----------------------------
