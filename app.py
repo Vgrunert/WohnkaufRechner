@@ -164,6 +164,7 @@ def simulate(
 
     return df_equity, df_monthly, df_cum, series
 
+
 # -----------------------------
 # Erklärungstext (Markdown)
 # -----------------------------
@@ -259,6 +260,25 @@ df_equity, df_monthly, df_cum, s = simulate(
 )
 
 # -----------------------------
+# Ergebnis-Kennzahlen (Ende der Laufzeit)
+# -----------------------------
+final_year = years
+final_equity_buy = df_equity["Eigenkapital im Haus (€)"].iloc[-1]
+final_equity_rent = df_equity["Depotwert (€)"].iloc[-1]
+
+delta = final_equity_buy - final_equity_rent
+
+better_option = "Kaufen" if delta > 0 else "Mieten"
+abs_delta = abs(delta)
+
+# Zusatzinfos für Erklärung
+total_interest = df_cum["Kumulierte Zinsen (€)"].iloc[-1]
+total_rent = df_cum["Kumulierte Miete (€)"].iloc[-1]
+total_principal = df_cum["Kumulierte Tilgung (€)"].iloc[-1]
+
+
+
+# -----------------------------
 # Plots
 # -----------------------------
 col1 = st.columns(1)
@@ -294,6 +314,53 @@ ax2.set_title("Kumulierte Größen")
 # ✅ dieselbe Figure in beide Columns "schneiden"
 # with col1:
 st.pyplot(fig, use_container_width=True)
+
+st.divider()
+st.subheader("Zusammenfassung & Interpretation")
+
+st.markdown(f"""
+### Ergebnis nach {final_year} Jahren
+
+Bei einem **Kaufpreis von {home_price:,.0f} €**,  
+einem **Zinssatz von {interest_rate*100:.1f} %**  
+und einer **Laufzeit von {final_year} Jahren** ergibt sich folgendes Bild:
+
+- **Alternative Kaufen**  
+  - Eigenkapital im Haus: **{final_equity_buy:,.0f} €**  
+  - Davon wurden **{total_principal:,.0f} €** durch Tilgung aufgebaut  
+  - Die gesamten Zinskosten betragen **{total_interest:,.0f} €**
+
+- **Alternative Mieten + Investieren der Differenz**  
+  - Depotwert am Ende: **{final_equity_rent:,.0f} €**  
+  - Insgesamt gezahlte Miete: **{total_rent:,.0f} €**
+
+### Fazit
+In diesem Szenario ist **{better_option}** die finanziell vorteilhaftere Alternative.
+
+Der Unterschied beträgt **{abs_delta:,.0f} €** zugunsten von **{better_option}**.
+
+### Warum?
+""")
+
+if better_option == "Kaufen":
+    st.markdown("""
+- Ein großer Teil der monatlichen Kreditrate fließt in **Tilgung** und erhöht direkt das Eigenkapital.
+- Trotz der Zinskosten wirkt der **Hebel der Immobilie** (Fremdkapital + Wertsteigerung).
+- Die eingesparte Miete kompensiert langfristig die laufenden Kosten.
+""")
+else:
+    st.markdown("""
+- Die **Miete ist niedriger** als der Kauf‑Cashflow, wodurch regelmäßig investiert werden kann.
+- Das **Depot profitiert vom Zinseszinseffekt** über viele Jahre.
+- Die Zinskosten des Kredits übersteigen den Vorteil der Immobilien‑Tilgung.
+""")
+
+st.caption("""
+Hinweis:  
+Diese Bewertung berücksichtigt ausschließlich Zahlungsströme und Vermögensaufbau.  
+Persönliche Faktoren wie Flexibilität, Risiko, Steuern, Förderungen oder ein späterer Verkauf
+sind nicht enthalten.
+""")
 
 # with col2:
 #     st.pyplot(fig, use_container_width=True)
