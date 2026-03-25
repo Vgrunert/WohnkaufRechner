@@ -111,6 +111,7 @@ def simulate(
         "Jahr": years_view,
         "Eigenkapital im Haus (€)": equity_home[months_idx],
         "Depotwert (€)": investment_history[months_idx],
+        "Differenz investiert (€)": equity_home[months_idx] - investment_history[months_idx],
     })
 
     df_monthly = pd.DataFrame({
