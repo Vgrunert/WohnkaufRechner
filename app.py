@@ -163,6 +163,60 @@ def simulate(
 
     return df_equity, df_monthly, df_cum, series
 
+# -----------------------------
+# Erklärungstext (Markdown)
+# -----------------------------
+
+st.markdown("""
+## Wie ist dieser Vergleich zu lesen?
+
+Diese Simulation vergleicht **Kaufen vs. Mieten** unter der Annahme,  
+dass beim Mieten die **monatliche Differenz** zwischen Kauf‑Cashflow  
+(Kreditrate + Instandhaltung) und Miete **konsequent investiert** wird.
+
+### Linker Plot – Vermögen / Wohlstand (entscheidungsrelevant)
+Dieser Plot zeigt die **relevanten Vermögensstände über die Zeit**:
+
+- **Kaufen:**  
+  *Eigenkapital im Haus* = Immobilienwert − Restschuld − Kaufnebenkosten  
+  → Tilgung wirkt hier als Vermögensaufbau, Zinsen nicht.
+
+- **Mieten:**  
+  *Depotwert* aus dem Investieren der monatlichen Differenz  
+  → Miete reduziert den Sparbetrag automatisch.
+
+- **Immobilienwert (brutto):**  
+  Nur zur Einordnung – kein direkt vergleichbarer Wohlstand.
+
+👉 **Dieser Plot beantwortet die Kernfrage:**  
+**Mit welcher Alternative baue ich mehr Vermögen auf?**
+
+---
+
+### Rechter Plot – Kumulierte Größen (Erklärungsebene)
+Dieser Plot zeigt **aufsummierte Zahlungsströme**:
+
+- Kumulierte Zinsen  
+- Kumulierte Tilgung (Vermögensaufbau, kein Kostenblock)  
+- Kumulierte Instandhaltung  
+- Kumulierte Miete  
+
+👉 **Dieser Plot erklärt das „Warum“**,  
+ist aber **nicht** direkt für die Entscheidungsfrage gedacht.
+
+---
+
+### Wichtige Annahmen & Hinweise
+- Tilgung wird **nicht als Kosten** behandelt, sondern als Sparen.
+- Kaufnebenkosten werden **einmalig** beim Kauf berücksichtigt.
+- Steuern, Förderungen, Verkaufskosten und Leerstand sind **nicht** modelliert.
+- Das Modell vergleicht **reine Zahlungsströme und Vermögensbildung**,  
+  nicht persönliche Präferenzen (Flexibilität, Risiko, Lebensstil).
+
+➡️ **Interpretation:**  
+Der Vergleich ist dann fair, wenn beide Alternativen  
+denselben monatlichen finanziellen Spielraum beanspruchen.
+""")
 
 # -----------------------------
 # Streamlit UI
