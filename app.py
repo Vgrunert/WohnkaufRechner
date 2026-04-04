@@ -261,7 +261,38 @@ ax2.set_title("Kumulierte Größen")
 # with col1:
 st.pyplot(fig, use_container_width=True)
 
+# -----------------------------
+# Tabellen (wie bei dir)
+# -----------------------------
+st.divider()
+tab0, tab1, tab2 = st.tabs(["Vergleich Vermögensentwicklung", "Monatliche Werte", "Kumulierte Werte"])
 
+with tab0:
+    st.dataframe(df_equity.style.format("{:,.0f}", subset=df_equity.columns[1:]), use_container_width=True)
+    st.download_button(
+        "CSV herunterladen (Vergleich)",
+        df_equity.to_csv(index=False).encode("utf-8"),
+        file_name="vergleich_vermoegen.csv",
+        mime="text/csv",
+    )
+
+with tab1:
+    st.dataframe(df_monthly.style.format("{:,.0f}", subset=df_monthly.columns[1:]), use_container_width=True)
+    st.download_button(
+        "CSV herunterladen (Monatlich)",
+        df_monthly.to_csv(index=False).encode("utf-8"),
+        file_name="monatliche_werte.csv",
+        mime="text/csv",
+    )
+
+with tab2:
+    st.dataframe(df_cum.style.format("{:,.0f}", subset=df_cum.columns[1:]), use_container_width=True)
+    st.download_button(
+        "CSV herunterladen (Kumuliert)",
+        df_cum.to_csv(index=False).encode("utf-8"),
+        file_name="kumulierte_werte.csv",
+        mime="text/csv",
+    )
 
 # -----------------------------
 # Erklärungstext (Markdown)
@@ -370,39 +401,3 @@ sind nicht enthalten.
 
 # with col2:
 #     st.pyplot(fig, use_container_width=True)
-
-
-
-
-# -----------------------------
-# Tabellen (wie bei dir)
-# -----------------------------
-st.divider()
-tab0, tab1, tab2 = st.tabs(["Vergleich Vermögensentwicklung", "Monatliche Werte", "Kumulierte Werte"])
-
-with tab0:
-    st.dataframe(df_equity.style.format("{:,.0f}", subset=df_equity.columns[1:]), use_container_width=True)
-    st.download_button(
-        "CSV herunterladen (Vergleich)",
-        df_equity.to_csv(index=False).encode("utf-8"),
-        file_name="vergleich_vermoegen.csv",
-        mime="text/csv",
-    )
-
-with tab1:
-    st.dataframe(df_monthly.style.format("{:,.0f}", subset=df_monthly.columns[1:]), use_container_width=True)
-    st.download_button(
-        "CSV herunterladen (Monatlich)",
-        df_monthly.to_csv(index=False).encode("utf-8"),
-        file_name="monatliche_werte.csv",
-        mime="text/csv",
-    )
-
-with tab2:
-    st.dataframe(df_cum.style.format("{:,.0f}", subset=df_cum.columns[1:]), use_container_width=True)
-    st.download_button(
-        "CSV herunterladen (Kumuliert)",
-        df_cum.to_csv(index=False).encode("utf-8"),
-        file_name="kumulierte_werte.csv",
-        mime="text/csv",
-    )
